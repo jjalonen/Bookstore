@@ -9,13 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-
-
 @Entity
 public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long Categoryid;
+	private Long categoryId;
 	private String name;
 	
 
@@ -25,17 +23,18 @@ public class Category {
 	public Category() {
 	}
 
-	public Category(String name) {
+	public Category(String name, List<Book> books) {
 		super();
 		this.name = name;
+		this.books = books;
 	}
 
-	public Long getCategoryid() {
-		return Categoryid;
+	public Long getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategoryid(Long categoryid) {
-		Categoryid = categoryid;
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getName() {
@@ -55,6 +54,6 @@ public class Category {
 	}
 	@Override
 	public String toString() {
-		return "Category [Categoryid=" + Categoryid + ", name=" + name + "]";
+		return "Category [Categoryid=" + categoryId + ", name=" + name + "]";
 	}
 }

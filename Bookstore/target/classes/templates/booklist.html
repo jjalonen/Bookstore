@@ -1,26 +1,70 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-	<title>ServerProgramming</title>
-	
+<title>Booklist</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" />
+
+<style>
+.signout {
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+</style>
+
 </head>
 
-	<body>
-		<h1>My friends</h1>
-		<ul>
-			<tr th:each="friend : ${friends}">
-				<li th:text="${friend.firstName}"></li>
+<body>
+
+	<div class="container">
+
+		<div class="signout">
+			<h3 th:inline="text">Hello
+				[[${#httpServletRequest.remoteUser}]]!</h3>
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" class="btn btn-danger" value="Sign Out" />
+			</form>
+		</div>
+
+		<h1>Books</h1>
+
+		<table class="table table-striped">
+			<tr>
+				<th>Author</th>
+				<th>Title</th>
+				<th>ISBN</th>
+				<th>Year</th>
+				<th>Price</th>
+				<th>Category</th>
+
+				<th></th>
 			</tr>
-		</ul>
+			<tr th:each="book : ${books}">
+				<td th:text="${book.author}"></td>
+				<td th:text="${book.title}"></td>
+				<td th:text="${book.isbn}"></td>
+				<td th:text="${book.year}"></td>
+				<td th:text="${book.price}"></td>
+				<td th:text="${book.category.name}"></td>
+
+
+				<td>
+				<td sec:authorize="hasAuthority('ADMIN')"><a
+					th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger">Delete</a>
+				</td>
+				<td><a th:href="@{/edit/{id}(id=${book.id})}"
+					class="btn btn-primary">Edit Book</a></td>
+
+			</tr>
+		</table>
+		<a href="/addbook" class="btn btn-success">Add Book</a>
+
+		
 	
-	<h1>Add new friend to list</h1>
-
-	<form action="#" th:action="@{/index}" th:object="${friend}" method="post">
-		<p>Name: <input type="text" th:field="*{firstName}" /></p>
-		<p><input type="submit" value="Submit" /></p>
-	</form>
-
 </body>
 </html>
+
+
